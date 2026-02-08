@@ -11,6 +11,7 @@ const app = express();
 const __dirname = path.resolve();
 const PORT = process.env.PORT || 3001;
 
+app.use(express.json()); // req.body
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 
