@@ -1,0 +1,25 @@
+import "dotenv/config";
+
+const {
+  RESEND_API_KEY,
+  RESEND_EMAIL_FROM,
+  RESEND_EMAIL_FROM_NAME,
+  JWT_SECRET,
+  NODE_ENV,
+  PORT,
+  MONGO_URI,
+  CLIENT_URL,
+} = process.env;
+
+const ENV = {
+  RESEND_API_KEY,
+  RESEND_EMAIL_FROM,
+  RESEND_EMAIL_FROM_NAME,
+  JWT_SECRET,
+  NODE_ENV,
+  PORT,
+  MONGO_URI,
+  CLIENT_URL,
+};
+
+export default ENV;
