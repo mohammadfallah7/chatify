@@ -94,6 +94,11 @@ const sendMessage = async (req, res) => {
       message: "Message text or image is required",
     });
   }
+  if (userId.equals(targetUserId)) {
+    return res.status(400).json({
+      message: "Cannot send message to yourself",
+    });
+  }
 
   try {
     const recipient = await User.findById(targetUserId).select("_id");
