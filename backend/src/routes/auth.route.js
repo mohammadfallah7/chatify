@@ -7,14 +7,20 @@ import {
   updateProfile,
 } from "../controllers/auth.controller.js";
 import { protectRoute } from "../middlewares/auth.middleware.js";
+import { authLimiter, userLimiter } from "../middlewares/limiter.middleware.js";
 
 const authRouter = express.Router();
 /* /api/auth */
 
-authRouter.post("/signup", signup);
-authRouter.post("/login", login);
-authRouter.post("/logout", logout);
-authRouter.get("/check", protectRoute, checkAuthentication);
-authRouter.patch("/update-profile-picture", protectRoute, updateProfile);
+authRouter.post("/signup", authLimiter, signup);
+authRouter.post("/login", authLimiter, login);
+authRouter.post("/logout", authLimiter, logout);
+authRouter.get("/check", protectRoute, userLimiter, checkAuthentication);
+authRouter.patch(
+  "/update-profile-picture",
+  protectRoute,
+  userLimiter,
+  updateProfile,
+);
 
 export { authRouter };
