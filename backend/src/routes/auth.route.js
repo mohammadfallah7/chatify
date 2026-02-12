@@ -1,5 +1,12 @@
 import express from "express";
-import { login, logout, signup } from "../controllers/auth.controller.js";
+import {
+  checkAuthentication,
+  login,
+  logout,
+  signup,
+  updateProfile,
+} from "../controllers/auth.controller.js";
+import { protectRoute } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router();
 /* /api/auth */
@@ -7,5 +14,7 @@ const authRouter = express.Router();
 authRouter.post("/signup", signup);
 authRouter.post("/login", login);
 authRouter.post("/logout", logout);
+authRouter.get("/check", protectRoute, checkAuthentication);
+authRouter.patch("/update-profile-picture", protectRoute, updateProfile);
 
 export { authRouter };
