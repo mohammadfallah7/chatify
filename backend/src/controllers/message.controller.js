@@ -1,5 +1,6 @@
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
+import mongoose from "mongoose";
 
 const getAllContacts = async (req, res) => {
   const userId = req.user._id;
@@ -58,13 +59,17 @@ const getMessagesByUserId = async (req, res) => {
   const userId = req.user._id;
   const targetUserId = req.params.id;
 
+  if (!mongoose.isValidObjectId(targetUserId)) {
+    return res.status(400).json({ message: "Invalid user id" });
+  }
+
   try {
     const messages = await Message.find({
       $or: [
         { senderId: userId, receiverId: targetUserId },
         { senderId: targetUserId, receiverId: userId },
       ],
-    });
+    }).sort({ createdAt: 1 });
 
     return res.json({
       message: "Messages fetched successfully",
@@ -91,6 +96,11 @@ const sendMessage = async (req, res) => {
   }
 
   try {
+    const recipient = await User.findById(targetUserId).select("_id");
+    if (!recipient) {
+      return res.status(404).json({ message: "Recipient not found" });
+    }
+
     const message = new Message({
       senderId: userId,
       receiverId: targetUserId,
