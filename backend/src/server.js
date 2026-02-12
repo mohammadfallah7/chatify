@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express from "express";
 import path from "path";
 import { connectDB } from "./lib/db.js";
@@ -10,6 +11,8 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3001;
 
 app.use(express.json()); // req.body
+app.use(cookieParser()); // req.cookies
+
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 
