@@ -10,6 +10,15 @@ const router = createBrowserRouter([
     Component: Layout,
     children: [
       {
+        path: "login",
+        Component: LoginPage,
+      },
+      {
+        path: "signup",
+        Component: SignupPage,
+      },
+      {
+        index: true,
         Component: ProtectRoute,
         children: [
           {
@@ -17,14 +26,6 @@ const router = createBrowserRouter([
             Component: App,
           },
         ],
-      },
-      {
-        path: "signup",
-        Component: SignupPage,
-      },
-      {
-        path: "login",
-        Component: LoginPage,
       },
     ],
   },
