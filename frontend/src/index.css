@@ -25,7 +25,7 @@
   }
 
   .auth-btn {
-    @apply cursor-pointer w-full bg-cyan-500 text-white rounded-lg py-2.5 font-medium hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500;
+    @apply flex justify-center items-center gap-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer w-full bg-cyan-500 text-white rounded-lg py-2.5 font-medium hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500;
   }
 
   .auth-link {

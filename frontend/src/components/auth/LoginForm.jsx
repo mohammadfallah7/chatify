@@ -3,7 +3,6 @@ import {
   LucideLockKeyhole,
   LucideMail,
   LucideMessageCircle,
-  LucideUser,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -12,10 +11,9 @@ import { axiosInstance } from "../../lib";
 import { useAuthStore } from "../../stores";
 import { BorderAnimatedContainer } from "../ui";
 
-export const SignupForm = () => {
+export const LoginForm = () => {
   const setUser = useAuthStore((s) => s.setUser);
   const [formData, setFormData] = useState({
-    fullName: "",
     email: "",
     password: "",
   });
@@ -26,8 +24,8 @@ export const SignupForm = () => {
 
     setLoading(true);
     try {
-      const res = await axiosInstance.post("/api/auth/signup", formData);
-      if (res.status === 201) {
+      const res = await axiosInstance.post("/api/auth/login", formData);
+      if (res.status === 200) {
         toast.success(res.data.message);
         setUser(res.data.response);
       }
@@ -46,32 +44,13 @@ export const SignupForm = () => {
             <div className="text-center mb-6">
               <LucideMessageCircle className="size-12 mx-auto text-slate-400 mb-3" />
               <h2 className="text-2xl font-bold text-slate-200 mb-1.5">
-                Create Account
+                Welcome Back
               </h2>
-              <p className="text-slate-400">Sign up for a new account</p>
+              <p className="text-slate-400">Login to access your account</p>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md">
-            <div>
-              <label htmlFor="fullName" className="auth-input-label">
-                Full Name
-              </label>
-              <div className="relative">
-                <LucideUser className="auth-input-icon" />
-                <input
-                  type="text"
-                  id="fullName"
-                  className="auth-input"
-                  placeholder="John Doe"
-                  value={formData.fullName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
             <div>
               <label htmlFor="email" className="auth-input-label">
                 Email
@@ -111,12 +90,12 @@ export const SignupForm = () => {
             </div>
             <button type="submit" className="auth-btn" disabled={loading}>
               {loading && <LucideLoader className="size-4 animate-spin" />}
-              Create Account
+              Login
             </button>
 
             <div className="text-center">
-              <Link to="/login" className="auth-link">
-                Already have an account? Login
+              <Link to="/signup" className="auth-link">
+                Don't have an account? Signup
               </Link>
             </div>
           </form>
@@ -124,15 +103,15 @@ export const SignupForm = () => {
 
         <div className="md:w-1/2 hidden md:flex p-8 items-center justify-center bg-linear-to-b from-slate-800/20 to-transparent">
           <div>
-            <img src="/signup.png" alt="Signup image" className="w-sm" />
+            <img src="/login.png" alt="Signup image" className="w-sm" />
             <div className="mt-6 text-center">
               <h3 className="text-xl font-medium text-cyan-400">
-                Start Your Journey Today
+                Connect Anytime, Anywhere
               </h3>
               <div className="mt-4 flex justify-center gap-4">
-                <span className="auth-badge">Free</span>
-                <span className="auth-badge">Easy Setup</span>
-                <span className="auth-badge">Private</span>
+                <span className="auth-badge">Secure</span>
+                <span className="auth-badge">Fast</span>
+                <span className="auth-badge">Reliable</span>
               </div>
             </div>
           </div>
