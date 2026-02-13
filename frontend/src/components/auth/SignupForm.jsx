@@ -6,36 +6,21 @@ import {
   LucideUser,
 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router";
-import { axiosInstance } from "../../lib";
-import { useAuthStore } from "../../stores";
+import { useSignup } from "../../hooks";
 import { BorderAnimatedContainer } from "../ui";
 
 export const SignupForm = () => {
-  const setUser = useAuthStore((s) => s.setUser);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const { mutate, loading } = useSignup();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    setLoading(true);
-    try {
-      const res = await axiosInstance.post("/api/auth/signup", formData);
-      if (res.status === 201) {
-        toast.success(res.data.message);
-        setUser(res.data.response);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
+    mutate(formData);
   };
 
   return (

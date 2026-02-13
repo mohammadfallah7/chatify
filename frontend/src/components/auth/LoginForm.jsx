@@ -5,35 +5,20 @@ import {
   LucideMessageCircle,
 } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router";
-import { axiosInstance } from "../../lib";
-import { useAuthStore } from "../../stores";
+import { useLogin } from "../../hooks";
 import { BorderAnimatedContainer } from "../ui";
 
 export const LoginForm = () => {
-  const setUser = useAuthStore((s) => s.setUser);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
+  const { loading, mutate } = useLogin();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    setLoading(true);
-    try {
-      const res = await axiosInstance.post("/api/auth/login", formData);
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        setUser(res.data.response);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoading(false);
-    }
+    mutate(formData);
   };
 
   return (
