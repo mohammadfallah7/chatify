@@ -1,4 +1,5 @@
 import { Navigate } from "react-router";
+import { SignupForm } from "../components";
 import { useAuthStore } from "../stores";
 
 export const SignupPage = () => {
@@ -6,5 +7,5 @@ export const SignupPage = () => {
 
   if (user) return <Navigate to="/" replace />;
 
-  return <div>Signup</div>;
+  return <SignupForm />;
 };
