@@ -1,6 +1,14 @@
 import { Outlet } from "react-router";
+import { PageLoading } from "./components";
+import { useCheckAuth } from "./hooks";
+import { useAuthStore } from "./stores";
 
 const Layout = () => {
+  const isChecking = useAuthStore((s) => s.isChecking);
+  useCheckAuth();
+
+  if (isChecking) return <PageLoading />;
+
   return (
     <div className="bg-slate-900 min-h-screen relative flex items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-size-[14px_24px]" />

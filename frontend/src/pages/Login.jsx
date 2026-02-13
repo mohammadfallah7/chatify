@@ -1,21 +1,11 @@
-import { useNavigate } from "react-router";
+import { Navigate } from "react-router";
+import { LoginForm } from "../components";
 import { useAuthStore } from "../stores";
 
 export const LoginPage = () => {
-  const setUser = useAuthStore((s) => s.setUser);
-  const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
 
-  return (
-    <div className="z-10">
-      LoginPage
-      <button
-        onClick={() => {
-          setUser({ name: "Mohammad" });
-          navigate("/");
-        }}
-      >
-        Login
-      </button>
-    </div>
-  );
+  if (user) return <Navigate to="/" replace />;
+
+  return <LoginForm />;
 };
