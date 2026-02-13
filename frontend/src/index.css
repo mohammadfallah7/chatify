@@ -35,6 +35,10 @@
   .auth-badge {
     @apply px-3 py-1 inline-block bg-cyan-500/10 rounded-full text-cyan-400  text-sm;
   }
+
+  .icon-button {
+    @apply size-6.5 rounded-full hover:bg-slate-600/75 flex items-center focus-visible:bg-slate-700/75 justify-center transition-colors cursor-pointer active:bg-slate-700/75;
+  }
 }
 
 @keyframes border {
