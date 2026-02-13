@@ -18,7 +18,6 @@ const router = createBrowserRouter([
         Component: SignupPage,
       },
       {
-        index: true,
         Component: ProtectRoute,
         children: [
           {
