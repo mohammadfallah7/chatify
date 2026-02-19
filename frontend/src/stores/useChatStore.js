@@ -3,7 +3,7 @@ import { create } from "zustand";
 export const useChatStore = create((set) => ({
   isMute: localStorage.getItem("volume") === "on" ? false : true,
   activeTab: "Chats",
-  targetUserId: null,
+  targetUser: null,
 
   toggleSound: () =>
     set((state) => {
@@ -11,5 +11,5 @@ export const useChatStore = create((set) => ({
       return { isMute: state.isMute ? false : true };
     }),
   setActiveTab: (tab) => set({ activeTab: tab }),
-  setTargetUserId: (selectedUserId) => set({ targetUserId: selectedUserId }),
+  setTargetUser: (selectedUser) => set({ targetUser: selectedUser }),
 }));
