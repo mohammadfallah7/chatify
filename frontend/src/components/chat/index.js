@@ -1,9 +1,14 @@
 export { ActiveTabSwitch } from "./ActiveTabSwitch";
 export { ChatContainer } from "./ChatContainer";
+export { ChatHeader } from "./ChatHeader";
+export { ChatHistory } from "./ChatHistory";
 export { ChatsList } from "./ChatsList";
 export { ContactsList } from "./ContactsList";
+export { MessagesSkeletonLoading } from "./MessagesSkeletonLoading";
+export { NoChatHistoryPlaceholder } from "./NoChatHistoryPlaceholder";
 export { NoChatsFound } from "./NoChatsFound";
 export { NoConversationPlaceholder } from "./NoConversationPlaceholder";
 export { ProfileHeader } from "./ProfileHeader";
+export { SendMessageForm } from "./SendMessageForm";
 export { UserCard } from "./UserCard";
 export { UsersSkeletonLoading } from "./UsersSkeletonLoading";

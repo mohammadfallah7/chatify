@@ -5,3 +5,4 @@ export { useLogin } from "./useLogin";
 export { useLogout } from "./useLogout";
 export { useSignup } from "./useSignup";
 export { useUploadProfilePicture } from "./useUploadProfilePicture";
+export { useMessages } from "./useMessages";
