@@ -6,13 +6,14 @@ import {
 } from "lucide-react";
 import { useRef } from "react";
 import { useLogout, useUploadProfilePicture } from "../../hooks";
-import { useAuthStore, useChatStore } from "../../stores";
+import { useAuthStore, useChatStore, useSocketStore } from "../../stores";
 
 const mouseClickSound = new Audio("/sounds/mouse-click.mp3");
 
 export const ProfileHeader = () => {
   const user = useAuthStore((s) => s.user);
   const { isMute, toggleSound } = useChatStore();
+  const onlineUserIds = useSocketStore((s) => s.onlineUserIds);
   const { mutate: logout, loading: isLoggingOut } = useLogout();
   const fileInputRef = useRef(null);
   const {
@@ -21,11 +22,15 @@ export const ProfileHeader = () => {
     data: selectedImage,
   } = useUploadProfilePicture();
 
+  const isOnline = onlineUserIds.some((i) => i === user._id);
+
   return (
     <div className="border-b border-slate-700/50 mb-4">
       <div className="p-4 flex justify-between items-center gap-2">
         <div className="flex items-center gap-2">
-          <div className="avatar avatar-online">
+          <div
+            className={`avatar ${isOnline ? "avatar-online" : "avatar-offline"}`}
+          >
             <button
               className="size-12 rounded-full overflow-hidden cursor-pointer relative group"
               onClick={() => fileInputRef.current.click()}
@@ -60,7 +65,9 @@ export const ProfileHeader = () => {
             <p className="text-xs font-medium line-clamp-1 text-slate-200">
               {user.fullName}
             </p>
-            <small className="text-[11px] text-slate-400">Online</small>
+            <small className="text-[11px] text-slate-400">
+              {isOnline ? "Online" : "Offline"}
+            </small>
           </div>
         </div>
 
