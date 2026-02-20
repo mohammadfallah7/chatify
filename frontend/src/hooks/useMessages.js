@@ -1,27 +1,13 @@
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { axiosInstance } from "../lib";
+import { useContext } from "react";
+import { MessagesContext } from "../contexts";
 
-export const useMessages = (targetUserId) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+export const useMessages = () => {
+  const context = useContext(MessagesContext);
+  if (!context) {
+    throw new Error(
+      "You should use useMessages hook inside MessagesProvider component",
+    );
+  }
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      setLoading(true);
-
-      try {
-        const res = await axiosInstance.get(`/api/messages/${targetUserId}`);
-        setData(res.data.response);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMessages();
-  }, [targetUserId]);
-
-  return { data, loading };
+  return context;
 };

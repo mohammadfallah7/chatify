@@ -9,7 +9,7 @@ import { SendMessageForm } from "./SendMessageForm";
 export const ChatContainer = () => {
   const targetUser = useChatStore((s) => s.targetUser);
 
-  const { data, loading } = useMessages(targetUser._id);
+  const { data, loading } = useMessages();
 
   return (
     <div className="flex flex-col h-full">
