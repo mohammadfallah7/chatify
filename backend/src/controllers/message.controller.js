@@ -1,6 +1,7 @@
+import mongoose from "mongoose";
+import { getReceiverSocketId, io } from "../lib/socket.js";
 import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
-import mongoose from "mongoose";
 
 const getAllContacts = async (req, res) => {
   const userId = req.user._id;
@@ -115,6 +116,10 @@ const sendMessage = async (req, res) => {
     const savedMessage = await message.save();
 
     // #TODO: send message in real-time if target user is online - socket.io
+    const receiverSocketId = getReceiverSocketId(targetUserId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("savedMessage", savedMessage);
+    }
 
     return res.json({
       message: "Message sent successfully",
