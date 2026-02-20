@@ -1,24 +1,35 @@
 // hooks/useSocketConnection.js
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthStore, useSocketStore } from "../stores";
 import { io } from "socket.io-client";
+
+const BASE_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:3001" : "/";
 
 export const useSocketConnection = () => {
   const user = useAuthStore((s) => s.user);
   const { socket, setSocket, setOnlineUserIds, removeSocket } =
     useSocketStore();
+  const lastUserIdRef = useRef(null);
 
   useEffect(() => {
-    if (!user) {
+    const userId = user?._id;
+    if (!userId) {
       if (socket) {
         socket.disconnect();
         removeSocket();
       }
+      lastUserIdRef.current = null;
       return;
     }
 
+    if (socket && lastUserIdRef.current && lastUserIdRef.current !== userId) {
+      socket.disconnect();
+      removeSocket();
+    }
+
     if (!socket) {
-      const newSocket = io("http://localhost:3001", {
+      const newSocket = io(BASE_URL, {
         withCredentials: true,
         autoConnect: true,
       });
@@ -28,6 +39,7 @@ export const useSocketConnection = () => {
       });
 
       setSocket(newSocket);
+      lastUserIdRef.current = userId;
     }
 
     return () => {
