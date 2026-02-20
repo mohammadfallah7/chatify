@@ -19,7 +19,7 @@ export const NoChatsFound = () => {
       </div>
       <button
         onClick={() => setActiveTab("Contacts")}
-        className="px-4 cursor-pointer py-2 text-s text-cyan-400 bg-cyan-500/10 rounded-lg hover:bg-cyan-500/20 transition-colors"
+        className="px-4 cursor-pointer py-2 text-xs text-cyan-400 bg-cyan-500/10 rounded-lg hover:bg-cyan-500/20 transition-colors"
       >
         Find contacts
       </button>

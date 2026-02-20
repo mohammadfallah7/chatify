@@ -5,13 +5,14 @@ import { useAuthStore } from "../stores";
 import { useMessages } from "./useMessages";
 
 export const useSendMessage = ({ targetUserId, onSuccess }) => {
-  const { data, setData } = useMessages();
+  const { setData } = useMessages();
   const [loading, setLoading] = useState(false);
   const user = useAuthStore((s) => s.user);
 
   const mutate = async (formValues) => {
+    const optimisticId = `${Date.now()}`;
     const optimisticMessage = {
-      _id: `${Date.now()}`,
+      _id: optimisticId,
       senderId: user._id,
       receiverId: targetUserId,
       text: formValues.text,
@@ -20,7 +21,7 @@ export const useSendMessage = ({ targetUserId, onSuccess }) => {
       updatedAt: new Date().toISOString(),
       isOptimistic: true,
     };
-    setData([...data, optimisticMessage]);
+    setData((prev) => [...prev, optimisticMessage]);
     setLoading(true);
 
     try {
@@ -29,11 +30,14 @@ export const useSendMessage = ({ targetUserId, onSuccess }) => {
         formValues,
       );
 
-      setData([...data, res.data.response]);
-      onSuccess();
+      setData((prev) => [
+        ...prev.filter((m) => m._id !== optimisticId),
+        res.data.response,
+      ]);
+      onSuccess?.();
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
-      setData(data);
+      setData((prev) => prev.filter((m) => m._id !== optimisticId));
     } finally {
       setLoading(false);
     }

@@ -8,20 +8,26 @@ export const MessagesProvider = ({ children, targetUserId }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let isActive = true;
     const fetchMessages = async () => {
       setLoading(true);
 
       try {
         const res = await axiosInstance.get(`/api/messages/${targetUserId}`);
-        setData(res.data.response);
+        if (isActive) setData(res.data.response);
       } catch (error) {
-        toast.error(error.response.data.message);
+        if (isActive)
+          toast.error(error.response?.data?.message || "Something went wrong");
       } finally {
-        setLoading(false);
+        if (isActive) setLoading(false);
       }
     };
 
     fetchMessages();
+
+    return () => {
+      isActive = false;
+    };
   }, [targetUserId]);
 
   return (

@@ -14,7 +14,7 @@ export const useChatPartners = () => {
         const res = await axiosInstance.get("/api/messages/chats");
         setChatPartners(res.data.response);
       } catch (error) {
-        toast.error(error.response.data.message);
+        toast.error(error.response?.data?.message || "Something went wrong");
       } finally {
         setLoading(false);
       }

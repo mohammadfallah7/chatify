@@ -24,9 +24,13 @@ export const SendMessageForm = ({ targetUserId }) => {
   const handleSelectImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    const MAX_FILE_BYTES = 3 * 1024 * 1024;
 
     if (!file.type.startsWith("image/")) {
       return toast.error("Please select an image file");
+    }
+    if (file.size > MAX_FILE_BYTES) {
+      return toast.error("Image is too large");
     }
 
     const reader = new FileReader();
@@ -34,7 +38,7 @@ export const SendMessageForm = ({ targetUserId }) => {
 
     reader.onloadend = () => {
       const base64Image = reader.result;
-      setFormValues({ ...formValues, image: base64Image });
+      setFormValues((prev) => ({ ...prev, image: base64Image }));
     };
   };
 

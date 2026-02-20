@@ -83,7 +83,7 @@ export const ProfileHeader = () => {
               mouseClickSound.currentTime = 0;
               mouseClickSound
                 .play()
-                .catch((err) => console.error("Audio play filed:", err));
+                .catch((err) => console.error("Audio play failed:", err));
               toggleSound();
             }}
           >

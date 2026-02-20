@@ -18,7 +18,7 @@ export const ChatContainer = () => {
         {loading ? (
           <MessagesSkeletonLoading />
         ) : data.length === 0 ? (
-          <NoChatHistoryPlaceholder />
+          <NoChatHistoryPlaceholder name={targetUser.fullName} />
         ) : (
           <ChatHistory data={data} />
         )}
